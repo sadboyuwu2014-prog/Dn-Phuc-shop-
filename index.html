@@ -2,57 +2,117 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dn Phuc Store - Shop Key</title>
+    <title>Dn Phuc Store - Hệ Thống</title>
     <style>
-        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: #121212; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .container { background: #1e1e1e; border-radius: 20px; padding: 30px; width: 90%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #333; padding-bottom: 10px; }
-        .tab-link { background: none; border: none; color: #aaa; cursor: pointer; font-weight: bold; padding: 10px; }
-        .tab-link.active { color: #fff; border-bottom: 2px solid #fff; }
-        .form-section { display: none; }
-        .form-section.active { display: block; }
-        .btn-main { background: #ff4757; color: #fff; border: none; width: 100%; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 15px; }
-        .btn-main:hover { background: #ff6b81; }
-        h2 { margin-bottom: 15px; }
-        p { color: #ccc; margin-bottom: 20px; }
+        body { background: #0f0f0f; color: white; font-family: sans-serif; padding: 20px; }
+        .container { max-width: 500px; margin: auto; background: #1a1a1a; padding: 20px; border-radius: 15px; }
+        .tabs { display: flex; gap: 5px; margin-bottom: 20px; overflow-x: auto; }
+        .tab-btn { background: #333; border: none; color: white; padding: 10px; cursor: pointer; border-radius: 5px; flex: 1; }
+        .tab-btn.active { background: #ff4757; }
+        .content { display: none; }
+        .content.active { display: block; }
+        input, select, button { width: 100%; padding: 12px; margin: 5px 0; border-radius: 5px; border: none; }
+        button { background: #ff4757; color: white; font-weight: bold; cursor: pointer; }
+        .history-item { background: #2a2a2a; padding: 10px; margin: 5px 0; border-radius: 5px; font-size: 14px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="nav-tabs">
-            <button class="tab-link active" onclick="show(event, 'home')">Cổng Vào</button>
-            <button class="tab-link" onclick="show(event, 'free')">Free Key</button>
-            <button class="tab-link" onclick="show(event, 'premium')">Mua Premium</button>
-        </div>
 
-        <div id="home" class="form-section active">
-            <h2>Dn Phuc Store</h2>
-            <p>Uy tín tạo nên thương hiệu. Chọn tính năng ở trên để bắt đầu!</p>
-        </div>
-
-        <div id="free" class="form-section">
-            <h2>Get Key Free</h2>
-            <p>Vượt link nhận key miễn phí ngay.</p>
-            <button class="btn-main" onclick="alert('Đang chuyển hướng lấy key...')">LẤY KEY NGAY</button>
-        </div>
-
-        <div id="premium" class="form-section">
-            <h2>Mua Premium</h2>
-            <p>Key VIP - Không quảng cáo - Hỗ trợ 24/7.</p>
-            <input type="text" style="width: 100%; padding: 10px; border-radius: 5px; border: none;" placeholder="Nhập tên Roblox của bạn">
-            <button class="btn-main" onclick="alert('Liên hệ Admin qua Discord để thanh toán!')">THANH TOÁN</button>
-        </div>
+<div class="container">
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'tab1')">Mua & Get Key</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab2')">Nạp Thẻ</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab3')">Giao Dịch</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab4')">Tạo TK</button>
     </div>
 
-    <script>
-        function show(evt, id) {
-            document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            evt.currentTarget.classList.add('active');
-        }
-    </script>
+    <!-- Tab 1 -->
+    <div id="tab1" class="content active">
+        <h3>Mua Key Premium</h3>
+        <button onclick="buyKey('1 tháng')">Mua 1 Tháng</button>
+        <button onclick="buyKey('12 tháng')">Mua 12 Tháng</button>
+        <button onclick="buyKey('Vĩnh viễn')">Mua Vĩnh Viễn</button>
+        <hr>
+        <h3>Get Key Free</h3>
+        <button onclick="window.open('https://lootlabs.gg/your-link-here', '_blank')">GET KEY FREE (Lootlabs)</button>
+        <p>Key của sếp: <b>FREE-9767-9B78-v76t</b></p>
+    </div>
+
+    <!-- Tab 2 -->
+    <div id="tab2" class="content">
+        <h3>Nạp Thẻ</h3>
+        <select id="cardValue">
+            <option value="10k">10.000đ</option>
+            <option value="50k">50.000đ</option>
+            <option value="100k">100.000đ</option>
+            <option value="1000k">1.000.000đ</option>
+        </select>
+        <input type="text" id="serial" placeholder="Nhập Serial">
+        <input type="text" id="pin" placeholder="Nhập Mã Thẻ">
+        <button onclick="napThe()">GỬI THẺ</button>
+    </div>
+
+    <!-- Tab 3 -->
+    <div id="tab3" class="content">
+        <h3>Lịch Sử Giao Dịch</h3>
+        <div id="historyList"></div>
+    </div>
+
+    <!-- Tab 4 -->
+    <div id="tab4" class="content">
+        <h3>Tạo Tài Khoản</h3>
+        <input type="text" id="username" placeholder="Nhập tên đăng nhập">
+        <button onclick="createAccount()">ĐĂNG KÝ</button>
+        <p id="userInfo"></p>
+    </div>
+</div>
+
+<script>
+    // Xử lý Tab
+    function openTab(evt, id) {
+        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        evt.currentTarget.classList.add('active');
+    }
+
+    // Tạo tài khoản
+    function createAccount() {
+        const user = document.getElementById('username').value;
+        const id = 'ID-' + Math.floor(Math.random() * 9000 + 1000);
+        localStorage.setItem('user', user);
+        localStorage.setItem('uid', id);
+        document.getElementById('userInfo').innerText = "Chào " + user + "! ID của sếp là: " + id;
+    }
+
+    // Nạp thẻ
+    function napThe() {
+        const val = document.getElementById('cardValue').value;
+        const serial = document.getElementById('serial').value;
+        const pin = document.getElementById('pin').value;
+        const user = localStorage.getItem('user') || "Khách";
+        
+        const trans = { user, val, time: new Date().toLocaleTimeString() };
+        let history = JSON.parse(localStorage.getItem('history') || '[]');
+        history.push(trans);
+        localStorage.setItem('history', JSON.stringify(history));
+        
+        alert("Đã gửi thẻ " + val + " thành công!");
+        updateHistory();
+    }
+
+    // Hiển thị lịch sử
+    function updateHistory() {
+        const h = JSON.parse(localStorage.getItem('history') || '[]');
+        document.getElementById('historyList').innerHTML = h.map(i => 
+            `<div class="history-item">${i.time} - ${i.user} vừa nạp ${i.val}</div>`).join('');
+    }
+
+    // Mua key
+    function buyKey(type) { alert("Sếp đã chọn gói: " + type + ". Vui lòng liên hệ Admin!"); }
+
+    updateHistory();
+</script>
 </body>
 </html>
