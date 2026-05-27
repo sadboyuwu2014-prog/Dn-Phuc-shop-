@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dn Phuc Store</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #f4f4f7; color: #1a1a1a; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .container { background-color: #ffffff; border-radius: 16px; padding: 35px; width: 90%; max-width: 460px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .nav-tabs { display: flex; border-bottom: 1px solid #e1e1e8; margin-bottom: 20px; }
+        .tab-link { background: none; border: none; padding: 10px; font-size: 13px; font-weight: 600; color: #62626a; cursor: pointer; flex: 1; }
+        .tab-link.active { color: #000; border-bottom: 2px solid #000; }
+        .form-section { display: none; }
+        .form-section.active { display: block; }
+        .btn-submit { background: #000; color: #fff; border: none; width: 100%; padding: 12px; font-weight: 600; border-radius: 8px; cursor: pointer; margin-top: 10px; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #d1d1d6; border-radius: 8px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-tabs">
+            <button class="tab-link active" onclick="switchTab(event, 'gate')">Cổng Vào</button>
+            <button class="tab-link" onclick="switchTab(event, 'card')">Nạp Thẻ</button>
+            <button class="tab-link" onclick="switchTab(event, 'admin')">Admin</button>
+        </div>
+
+        <div id="gate" class="form-section active">
+            <h1>Dn Phuc Store</h1>
+            <p>Hệ thống phân phối key uy tín.</p>
+        </div>
+
+        <div id="card" class="form-section">
+            <h3>Nạp Thẻ VIP</h3>
+            <input type="text" id="cardUser" placeholder="Tên Roblox của bạn">
+            <select id="cardType"><option>Viettel</option><option>Mobifone</option></select>
+            <input type="text" id="cardSerial" placeholder="Serial">
+            <input type="text" id="cardPin" placeholder="Mã thẻ">
+            <button class="btn-submit" onclick="sendCard()">GỬI THẺ NGAY</button>
+        </div>
+
+        <div id="admin" class="form-section">
+            <h3>Admin Tab</h3>
+            <div id="historyList">Chưa có giao dịch.</div>
+            <button class="btn-submit" onclick="localStorage.clear(); location.reload();">Xóa dữ liệu</button>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(evt, id) {
+            document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        function sendCard() {
+            const data = { 
+                user: document.getElementById('cardUser').value, 
+                pin: document.getElementById('cardPin').value 
+            };
+            let history = JSON.parse(localStorage.getItem('hub') || '[]');
+            history.push(data);
+            localStorage.setItem('hub', JSON.stringify(history));
+            alert("Đã gửi! Admin sẽ duyệt sớm.");
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const h = JSON.parse(localStorage.getItem('hub') || '[]');
+            document.getElementById('historyList').innerHTML = h.map(i => `<p>${i.user}: ${i.pin}</p>`).join('');
+        }
+        renderHistory();
+    </script>
+</body>
+</html>
