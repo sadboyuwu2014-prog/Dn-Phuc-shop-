@@ -3,74 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dn Phuc Store</title>
+    <title>Dn Phuc Store - Shop Key</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: #f4f4f7; color: #1a1a1a; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        .container { background-color: #ffffff; border-radius: 16px; padding: 35px; width: 90%; max-width: 460px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-        .nav-tabs { display: flex; border-bottom: 1px solid #e1e1e8; margin-bottom: 20px; }
-        .tab-link { background: none; border: none; padding: 10px; font-size: 13px; font-weight: 600; color: #62626a; cursor: pointer; flex: 1; }
-        .tab-link.active { color: #000; border-bottom: 2px solid #000; }
+        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #121212; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background: #1e1e1e; border-radius: 20px; padding: 30px; width: 90%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #333; padding-bottom: 10px; }
+        .tab-link { background: none; border: none; color: #aaa; cursor: pointer; font-weight: bold; padding: 10px; }
+        .tab-link.active { color: #fff; border-bottom: 2px solid #fff; }
         .form-section { display: none; }
         .form-section.active { display: block; }
-        .btn-submit { background: #000; color: #fff; border: none; width: 100%; padding: 12px; font-weight: 600; border-radius: 8px; cursor: pointer; margin-top: 10px; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #d1d1d6; border-radius: 8px; margin-bottom: 10px; }
+        .btn-main { background: #ff4757; color: #fff; border: none; width: 100%; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 15px; }
+        .btn-main:hover { background: #ff6b81; }
+        h2 { margin-bottom: 15px; }
+        p { color: #ccc; margin-bottom: 20px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="nav-tabs">
-            <button class="tab-link active" onclick="switchTab(event, 'gate')">Cổng Vào</button>
-            <button class="tab-link" onclick="switchTab(event, 'card')">Nạp Thẻ</button>
-            <button class="tab-link" onclick="switchTab(event, 'admin')">Admin</button>
+            <button class="tab-link active" onclick="show(event, 'home')">Cổng Vào</button>
+            <button class="tab-link" onclick="show(event, 'free')">Free Key</button>
+            <button class="tab-link" onclick="show(event, 'premium')">Mua Premium</button>
         </div>
 
-        <div id="gate" class="form-section active">
-            <h1>Dn Phuc Store</h1>
-            <p>Hệ thống phân phối key uy tín.</p>
+        <div id="home" class="form-section active">
+            <h2>Dn Phuc Store</h2>
+            <p>Uy tín tạo nên thương hiệu. Chọn tính năng ở trên để bắt đầu!</p>
         </div>
 
-        <div id="card" class="form-section">
-            <h3>Nạp Thẻ VIP</h3>
-            <input type="text" id="cardUser" placeholder="Tên Roblox của bạn">
-            <select id="cardType"><option>Viettel</option><option>Mobifone</option></select>
-            <input type="text" id="cardSerial" placeholder="Serial">
-            <input type="text" id="cardPin" placeholder="Mã thẻ">
-            <button class="btn-submit" onclick="sendCard()">GỬI THẺ NGAY</button>
+        <div id="free" class="form-section">
+            <h2>Get Key Free</h2>
+            <p>Vượt link nhận key miễn phí ngay.</p>
+            <button class="btn-main" onclick="alert('Đang chuyển hướng lấy key...')">LẤY KEY NGAY</button>
         </div>
 
-        <div id="admin" class="form-section">
-            <h3>Admin Tab</h3>
-            <div id="historyList">Chưa có giao dịch.</div>
-            <button class="btn-submit" onclick="localStorage.clear(); location.reload();">Xóa dữ liệu</button>
+        <div id="premium" class="form-section">
+            <h2>Mua Premium</h2>
+            <p>Key VIP - Không quảng cáo - Hỗ trợ 24/7.</p>
+            <input type="text" style="width: 100%; padding: 10px; border-radius: 5px; border: none;" placeholder="Nhập tên Roblox của bạn">
+            <button class="btn-main" onclick="alert('Liên hệ Admin qua Discord để thanh toán!')">THANH TOÁN</button>
         </div>
     </div>
 
     <script>
-        function switchTab(evt, id) {
+        function show(evt, id) {
             document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.tab-link').forEach(t => t.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             evt.currentTarget.classList.add('active');
         }
-
-        function sendCard() {
-            const data = { 
-                user: document.getElementById('cardUser').value, 
-                pin: document.getElementById('cardPin').value 
-            };
-            let history = JSON.parse(localStorage.getItem('hub') || '[]');
-            history.push(data);
-            localStorage.setItem('hub', JSON.stringify(history));
-            alert("Đã gửi! Admin sẽ duyệt sớm.");
-            renderHistory();
-        }
-
-        function renderHistory() {
-            const h = JSON.parse(localStorage.getItem('hub') || '[]');
-            document.getElementById('historyList').innerHTML = h.map(i => `<p>${i.user}: ${i.pin}</p>`).join('');
-        }
-        renderHistory();
     </script>
 </body>
 </html>
